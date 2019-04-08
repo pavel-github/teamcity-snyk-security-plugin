@@ -9,6 +9,7 @@ import java.util.List;
 import io.snyk.plugins.teamcity.agent.commands.SnykMonitorCommand;
 import io.snyk.plugins.teamcity.agent.commands.SnykReportCommand;
 import io.snyk.plugins.teamcity.agent.commands.SnykTestCommand;
+import io.snyk.plugins.teamcity.agent.tool.SnykInstaller;
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.TeamCityRuntimeException;
 import jetbrains.buildServer.agent.BuildFinishedStatus;
@@ -24,6 +25,7 @@ import static io.snyk.plugins.teamcity.common.SnykSecurityRunnerConstants.MONITO
 import static io.snyk.plugins.teamcity.common.SnykSecurityRunnerConstants.SNYK_MONITOR_REPORT_JSON_FILE;
 import static io.snyk.plugins.teamcity.common.SnykSecurityRunnerConstants.SNYK_REPORT_HTML_FILE;
 import static io.snyk.plugins.teamcity.common.SnykSecurityRunnerConstants.SNYK_TEST_REPORT_JSON_FILE;
+import static io.snyk.plugins.teamcity.common.SnykSecurityRunnerConstants.VERSION;
 import static java.util.Objects.requireNonNull;
 import static jetbrains.buildServer.util.PropertiesUtil.getBoolean;
 
@@ -42,6 +44,12 @@ public class SnykCommandBuildSession implements MultiCommandBuildSession {
 
   @Override
   public void sessionStarted() {
+    String version = buildRunnerContext.getRunnerParameters().get(VERSION);
+    if ("latest".equals(version)) {
+      SnykInstaller snykInstaller = new SnykInstaller(buildRunnerContext);
+      snykInstaller.performInstallation();
+    }
+
     buildSteps = getBuildSteps();
   }
 

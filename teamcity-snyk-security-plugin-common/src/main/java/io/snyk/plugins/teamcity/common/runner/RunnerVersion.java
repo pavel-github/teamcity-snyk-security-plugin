@@ -1,25 +1,27 @@
 package io.snyk.plugins.teamcity.common.runner;
 
-import java.util.Set;
+public class RunnerVersion {
 
-import static java.util.Objects.requireNonNull;
-
-public abstract class RunnerVersion {
-  private final String version;
-  private final Set<Platform> platforms;
-
-  RunnerVersion(String version, Set<Platform> platforms) {
-    this.version = requireNonNull(version);
-    this.platforms = requireNonNull(platforms);
+  RunnerVersion() {
   }
 
   /**
    * Returns the path to <code>snyk</code> CLI binary file
    */
-  public abstract String getSnykToolPath(Platform platform);
+  public String getSnykToolFileName(Platform platform) {
+    if (platform == null) {
+      return "snyk-linux";
+    }
+    return "snyk-" + platform.getSuffix();
+  }
 
   /**
    * Returns the path to <code>snyk-to-html</code> binary file
    */
-  public abstract String getReportMapperPath(Platform platform);
+  public String getReportMapperFileName(Platform platform) {
+    if (platform == null) {
+      return "snyk-to-html-linux";
+    }
+    return "snyk-to-html-" + platform.getSuffix();
+  }
 }

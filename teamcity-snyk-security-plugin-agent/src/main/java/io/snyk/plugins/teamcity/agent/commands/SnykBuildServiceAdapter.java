@@ -29,7 +29,7 @@ abstract class SnykBuildServiceAdapter extends BuildServiceAdapter {
 
     String agentToolsDirectory = getAgentConfiguration().getAgentToolsDirectory().getAbsolutePath();
     Platform platform = detectAgentPlatform();
-    Path snykToolPath = Paths.get(agentToolsDirectory, "teamcity-snyk-security-plugin-runner", "bin", version, runner.getSnykToolPath(platform));
+    Path snykToolPath = Paths.get(agentToolsDirectory, "teamcity-snyk-security-plugin-runner", "bin", version, runner.getSnykToolFileName(platform));
     if (!snykToolPath.toFile().exists()) {
       throw new TeamCityRuntimeException(format("Could not found '%s'", snykToolPath.toString()));
     }
@@ -45,7 +45,7 @@ abstract class SnykBuildServiceAdapter extends BuildServiceAdapter {
 
     String agentToolsDirectory = getAgentConfiguration().getAgentToolsDirectory().getAbsolutePath();
     Platform platform = detectAgentPlatform();
-    Path reportMapperPath = Paths.get(agentToolsDirectory, "teamcity-snyk-security-plugin-runner", "bin", version, runner.getReportMapperPath(platform));
+    Path reportMapperPath = Paths.get(agentToolsDirectory, "teamcity-snyk-security-plugin-runner", "bin", version, runner.getReportMapperFileName(platform));
     if (!reportMapperPath.toFile().exists()) {
       throw new TeamCityRuntimeException(format("Could not found '%s'", reportMapperPath.toString()));
     }
