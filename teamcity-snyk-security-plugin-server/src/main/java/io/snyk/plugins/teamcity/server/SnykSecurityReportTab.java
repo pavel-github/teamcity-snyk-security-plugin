@@ -23,21 +23,21 @@ public class SnykSecurityReportTab extends ViewLogTab {
   public SnykSecurityReportTab(@NotNull PagePlaces pagePlaces, @NotNull SBuildServer server, @NotNull PluginDescriptor pluginDescriptor) {
     super(TAB_TITLE, TAB_CODE, pagePlaces, server);
 
-    setIncludeUrl("/artifactsViewer.jsp");
-    // setIncludeUrl(pluginDescriptor.getPluginResourcesPath("tab/snykSecurityReport.jsp"));
+    // setIncludeUrl("/artifactsViewer.jsp");
+    setIncludeUrl(pluginDescriptor.getPluginResourcesPath("tab/snykSecurityReport.jsp"));
     setPosition(PositionConstraint.after("artifacts"));
-    // addCssFile(pluginDescriptor.getPluginResourcesPath("tab/snykSecurityReport.css"));
+    addCssFile(pluginDescriptor.getPluginResourcesPath("tab/snykSecurityReport.css"));
   }
 
   @Override
   protected void fillModel(@NotNull Map<String, Object> map, @NotNull HttpServletRequest httpServletRequest, @NotNull SBuild build) {
-    map.put("startPage", getSnykHtmlReport(build));
+    //map.put("something", getSnykHtmlReport(build));
   }
 
   @Override
   protected boolean isAvailable(@NotNull HttpServletRequest request, @NotNull SBuild build) {
     SBuildType buildType = build.getBuildType();
-    if (buildType == null) {
+    if (buildType == null || !build.isFinished()) {
       return false;
     }
     return buildType.getRunnerTypes().contains(SnykSecurityRunnerConstants.RUNNER_TYPE);
