@@ -36,7 +36,7 @@ deploy:
   - provider: script
     script:
       echo "Deploying the plugin to JetBrains Portal..." &&
-      curl -i --request POST -F userName="$JETBRAINS_USERNAME" -F password="$JETBRAINS_PASSWORD" -F pluginId=12227 -F file=@distribution/target/teamcity-snyk-security-plugin.zip https://plugins.jetbrains.com/plugin/uploadPlugin
+      curl -i --header "Authorization: Bearer $JETBRAINS_PUBLISH_TOKEN" -F pluginId=12227 -F file=@distribution/target/teamcity-snyk-security-plugin.zip https://plugins.jetbrains.com/plugin/uploadPlugin
     skip_cleanup: true
     on:
       repo: snyk/teamcity-snyk-security-plugin
